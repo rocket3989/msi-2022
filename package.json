@@ -1,0 +1,25 @@
+{
+  "name": "msi-2021",
+  "version": "1.0.0",
+  "description": "https://rocket3989.github.io/msi-2021/",
+  "main": "calc-scenarios.js",
+  "dependencies": {
+    "d3": "5.0.0",
+    "d3-jetpack": "2.1.1",
+    "indian-ocean": "4.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rocket3989/msi-2021.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rocket3989/msi-2021/issues"
+  },
+  "homepage": "https://github.com/rocket3989/msi-2021#readme"
+}
