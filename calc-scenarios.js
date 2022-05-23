@@ -98,7 +98,10 @@ function scoreMatches(){
     .sort(d3.descendingKey(d => +d.key))
     .forEach(function(d){
       
-      if (d.length <= advanceSlots){
+      if (d.length == 1 && advanceSlots == 4){
+        d.forEach(function(e){ e.advance = 'u'})
+      }
+      else if (d.length <= advanceSlots){
         d.forEach(function(e){ e.advance = 't'})
       } else if (advanceSlots > 0){
         d.forEach(function(e){ e.advance = e.m?'t':'m'})

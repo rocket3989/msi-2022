@@ -37,15 +37,29 @@ var highlightScenarios = '000000000000'.split('').map(d => +d)
 var mouseover = [64, 64]
 
 var colorChoice = 0
-var colors = {t: '#4CAF50', f: '#F44336', m: '#FF9800'}
+var colors = {u:'#4CAF50', t: '#4CAF50', f: '#F44336', m: '#FF9800'}
+
+
+
+
+function changeSeed(){
+  colorChoice ^= 1;
+  reDraw()
+}
 
 function changeColor(){
-  colorChoice ^= 1;
+  colorChoice ^= 2;
 
-  if (colorChoice == 1)
-    colors = {t: '#2c7bb6', f: '#f73434', m: '#dfaf90'}
-  else
-    colors = {t: '#4CAF50', f: '#F44336', m: '#FF9800'}
+
+  reDraw()
+}
+
+function reDraw(){
+  colors = [ {u:'#4CAF50',t: '#4CAF50', m: '#FF9800', f: '#f73434'},
+          {u:'#36e03d',t: '#4CAF50', m: '#FF9800', f: '#f73434'},
+          {u:'#2c7bb6',t: '#2c7bb6', m: '#dfaf90', f: '#f73434'},
+           {u:'#5aa4db',t: '#2c7bb6', m: '#dfaf90', f: '#f73434'}][colorChoice]
+  console.log(colors)
 
   d3.entries(colors).forEach(({key, value}) => {
     var c = d3.color(value)
@@ -366,7 +380,7 @@ function drawGames(){
     .st({marginTop: -6, position: 'relative', top: -10})
     .appendMany(
       'path.outcome-line', 
-      game => [{game, type: 't'}, {game, type: 'm'}, {game, type: 'f'}]
+      game => [{game, type: 'u'}, {game, type: 't'}, {game, type: 'm'}, {game, type: 'f'}]
     )
     .translate((d, i) => [width/2, i*3])
     .at({stroke: d => colors[d.type], d: 'M 0 0 H 0'})
@@ -383,12 +397,13 @@ function drawGames(){
       game.t2Win = calcPercents(outcomeArray)
 
       game.dif = {
+        u: game.t2Win.pu - game.t1Win.pu,
         t: game.t2Win.pt - game.t1Win.pt,
         m: game.t2Win.pm - game.t1Win.pm,
         f: game.t2Win.pf - game.t1Win.pf,
       }
 
-      if (activeTeam == 'All Teams') game.dif = {t: 0, m: 0, f: 0}
+      if (activeTeam == 'All Teams') game.dif = {u: 0, t: 0, m: 0, f: 0}
 
       // console.log(game.dif)
     })
@@ -413,7 +428,7 @@ function drawGames(){
 }
 
 function calcPercents(highlightScenarios){
-  var rv = {t: 0, f: 0, m: 0}
+  var rv = {u: 0, t: 0, f: 0, m: 0}
 
   scenarios.forEach(s => {
     var active = highlightScenarios.every((g, i) =>
@@ -424,8 +439,14 @@ function calcPercents(highlightScenarios){
     rv[s[activeTeam]] ++
   })
 
-  rv.total = rv.t + rv.m + rv.f
+  rv.total = rv.t + rv.m + rv.f + rv.u
 
+  if (colorChoice % 2 == 0){
+    rv.t += rv.u
+    rv.u = 0
+  }
+
+  rv.pu = rv.u/rv.total
   rv.pt = rv.t/rv.total
   rv.pm = rv.m/rv.total
   rv.pf = rv.f/rv.total
