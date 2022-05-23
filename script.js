@@ -6,8 +6,8 @@ var teams = 'RNG T1 G2 EG PSG SGB'.split(' ')
 var teamText = {
   RNG: `One win not against SGB and RNG advances.`,
   T1: `One win vs EG or G2 to avoid elimination.`, 
-  G2: `G2's most important match is against EG.`,
-  EG: `EG's most important match is against PSG.`,
+  G2: `G2's most important match is against PSG.`,
+  EG: `Even with 4 losses, EG can advance.`,
   PSG: `Even with 4 wins, PSG can still get a tie.`,
   SGB: `SGB needs the stars to align.`,
 }

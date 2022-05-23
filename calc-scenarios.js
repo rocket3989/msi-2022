@@ -36,6 +36,8 @@ var scenarios = d3.range(4096).map(function(i){
   }    
 })
 
+// 100111010111
+// 000101000110
 
 function scoreMatches(){
   var teams = d3.nestBy(matches, d => d.t1)
@@ -62,15 +64,19 @@ function scoreMatches(){
       tiedTeams(d)
     }
     if (d.length == 3){
+
       tiedTeams(d)
       var tied = 0
       d.forEach(function(d){
         if (d.w == 4) d.w = 100
+        if (d.w == 3) {d.m = true
+          d.w = 0
+          tied++}
         else if (d.w == 0) d.w = -100
-        // else {
-        //   d.w = 0
-        //   tied++
-        // }
+        else {
+          d.w = 0
+          tied++
+        }
       })
 
       if (tied == 2){
@@ -95,7 +101,7 @@ function scoreMatches(){
       if (d.length <= advanceSlots){
         d.forEach(function(e){ e.advance = 't'})
       } else if (advanceSlots > 0){
-        d.forEach(function(e){ e.advance = 'm'})
+        d.forEach(function(e){ e.advance = e.m?'t':'m'})
 
       } else{
         d.forEach(function(e){ e.advance = 'f'})
